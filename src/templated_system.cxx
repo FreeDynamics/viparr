@@ -1,5 +1,6 @@
 #include "base.hxx"
 #include "templated_system.hxx"
+#include <cassert>
 #include <sstream>
 #include <msys/clone.hxx>
 #include <msys/param_table.hxx>

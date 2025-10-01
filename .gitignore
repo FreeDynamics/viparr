@@ -4,3 +4,6 @@ doc/out/*
 doc/build
 .cache
 .pytest_cache
+output/
+upload_packages.sh
+rattler-build-*.log

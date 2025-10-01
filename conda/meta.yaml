@@ -1,0 +1,73 @@
+package:
+  name: "fd-viparr"
+  version: "4.7.35"
+
+source:
+  path: ../.
+  use_gitignore: true # note: defaults to true
+
+build:
+  number: 1
+
+requirements:
+  build:
+    - ${{ compiler('c') }}
+    - ${{ compiler('cxx') }}
+    - scons
+    - numpy >=1.24,<2
+    - pybind11
+    - python
+    - libboost
+    - libboost-devel
+    - rdkit
+    - fd-msys
+    - pytest
+
+  host:
+    - python
+    - numpy >=1.24,<2
+    - pybind11
+    - libboost
+    - libboost-devel
+    - rapidjson
+    - zlib
+    - rdkit
+    - fd-msys
+
+  run:
+    - python
+    - libboost
+    - libboost-devel
+    - rdkit
+    - fd-msys
+    - ${{ pin_compatible('numpy') }}
+    - ${{ pin_compatible('libboost') }}
+
+tests:
+  - python: 
+      imports:
+        - msys
+        - viparr
+  - script:
+      - dms-diff -h
+      - dms-dump -h
+      - dms-find-knot -h
+      - dms-fix-mass -h
+      - dms-fix-water-residues -h
+      - dms-frame -h
+      - dms-grease -h
+      - dms-info -h
+      - dms-posre -h
+      - dms-reorder-atoms -h
+      - dms-replicate -h
+      - dms-select -h
+      - dms-sequence -h
+      - dms-set -h
+      - dms-solvate -h
+      - dms-thermalize -h
+      - dms-tile -h
+      - dms-validate -h
+      - dms-version -h
+      - dms2mae -h
+      - python -c 'import msys; s = msys.FromSmilesString("CC"); msys.AssignBondOrderAndFormalCharge(s)'
+
