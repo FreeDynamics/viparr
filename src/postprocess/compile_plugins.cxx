@@ -1,7 +1,7 @@
 #include "compile_plugins.hxx"
 #include "../base.hxx"
 #include "../ff.hxx"
-
+#include <cassert>
 #include <algorithm>
 #include <string>
 

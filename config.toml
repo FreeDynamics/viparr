@@ -1,0 +1,5 @@
+default-channels = [
+    "https://repo.prefix.dev/free-dynamics",
+    "conda-forge", 
+    "bioconda"
+]

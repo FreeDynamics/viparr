@@ -166,7 +166,8 @@ def _AddPythonModule(env, *args, **kwds):
                     cachedir,
                     os.path.splitext(os.path.basename(py))[0],
                     env['PYTHON%s_CACHEEXT' % ver])
-            cachetgt = env.Command(cachefile, mod, 'python%s -m compileall $SOURCE' % '.'.join(ver))
+            ver_str = ver[0] + '.' + ver[1:]
+            cachetgt = env.Command(cachefile, mod, 'python%s -m compileall $SOURCE' % ver_str)
             _Install(env, 'lib/python/%s/%s' % (prefix, cachedir), cachetgt)
         mods.append(mod)
         _wheel_targets['purelib'].append((mod, wheel_prefix))
@@ -285,7 +286,7 @@ def generate(env):
     opts.Add("OBJDIR", "build product location", 'build')
     opts.Add("PREFIX", "installation location")
 
-    opts.Add(ListVariable('PYTHONVER', 'python versions', os.getenv('PYTHONVER', ''), ['36', '37', '38', '39']))
+    opts.Add(ListVariable('PYTHONVER', 'python versions', os.getenv('PYTHONVER', ''), ['36', '37', '38', '39', '310', '311', '312']))
     opts.Update(env)
 
     builddir = env.Dir(env['OBJDIR']).srcnode().abspath
@@ -326,8 +327,9 @@ def generate(env):
             env.AddMethod(func, name)
 
     for ver in env['PYTHONVER']:
-        cfg = 'python%s-config' % '.'.join(ver)
-        exe = 'python%s' % '.'.join(ver)
+        ver_str = ver[0] + '.' + ver[1:]
+        cfg = 'python%s-config' % ver_str
+        exe = 'python%s' % ver_str
         incs=subprocess.check_output([cfg, '--includes'], universal_newlines=True).strip()
         prefix=subprocess.check_output([cfg, '--prefix'], universal_newlines=True).strip()
         libs=subprocess.check_output([cfg, '--libs'], universal_newlines=True).strip()
